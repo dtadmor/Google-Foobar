@@ -19,14 +19,57 @@ For instance, in the case of
 ]<br>
 and a time limit of 1, the five inner array rows designate the starting point, bunny 0, bunny 1, bunny 2, and the bulkhead door exit respectively. You could take the path:
 
-| Start | End | Delta | Time | Status |  
-| _____ | ___ | _____ | ____ | ______ |  
-| - | 0 | - | 1 | Bulkhead initially open |  
-| 0 | 4 | -1 | 2 | |  
-| 4 | 2 | 2 | 0 | |  
-| 2 | 4 | -1 | 1 | |  
-| 4 | 3 | 2 | -1 | Bulkhead closes
-| 3 | 4 | -1 | 0 | Bulkhead reopens; you and the bunnies exit |  
+<table>
+  <tr>
+    <td>Start</td>
+    <td>End</td>
+    <td>Delta</td>
+    <td>Time</td>
+    <td>Status</td>
+  </tr>
+  <tr>
+    <td>-</td>
+    <td>0</td>
+    <td>-</td>
+    <td>1</td>
+    <td>Bulkhead initially open</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>4</td>
+    <td>-1</td>
+    <td>2</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>2</td>
+    <td>2</td>
+    <td>0</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>4</td>
+    <td>-1</td>
+    <td>1</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>3</td>
+    <td>2</td>
+    <td>-1</td>
+    <td>Bulkhead closes</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>4</td>
+    <td>-1</td>
+    <td>0</td>
+    <td>Bulkhead reopens; you and the bunnies exit</td>
+  </tr>
+</table>
 
 With this solution, you would pick up bunnies 1 and 2. This is the best combination for this space station hallway, so the answer is [1, 2].
 
