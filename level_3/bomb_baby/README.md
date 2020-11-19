@@ -1,41 +1,9 @@
-Bomb, Baby!
-===========
+Challenge Restated:
+In this challenge, you start with 1 Mach bomb (M) and 1 Facula bomb (F). At any given point, you can create more Mach bombs, by adding the number of Facula bombs. Likewise, to increase the number of Facula bombs, you can add the number of Mach bombs. You always begin with 1 Mach bomb and 1 Facula bomb and are given how many bombs of each kind need to be created. The solution should be the number of times (steps) you needed to increase the number of bombs. If the required number of bombs is impossible, that should be returned.
 
-You're so close to destroying the LAMBCHOP doomsday device you can taste it! But in order to do so, you need to deploy special self-replicating bombs designed for you by the brightest scientists on Bunny Planet. There are two types: Mach bombs (M) and Facula bombs (F). The bombs, once released into the LAMBCHOP's inner workings, will automatically deploy to all the strategic points you've identified and destroy them at the same time.
+Solution:
+The problem is stated as if we are working up, creating bombs until we have reached our goal. This creates a search problem where at each step you have 2 options; to increase the Facula bombs or the Mach bombs. It can also be challenging to prune the search tree. For example, starting with F=1 and M=1, we could keep adding 1 to F until we reach our goal or a high enough number to realize this path won't work. This would leave many paths still to explore before trying a similar search with adding 2 each time (add F=1 to M=1, then keep adding M=2 to F). With a goal as high as $$10^50$$, it was necessary to either find an aggressive pruning method or to reframe the problem and the resulting algorithm.
 
-But there's a few catches. First, the bombs self-replicate via one of two distinct processes:
-Every Mach bomb retrieves a sync unit from a Facula bomb; for every Mach bomb, a Facula bomb is created;
-Every Facula bomb spontaneously creates a Mach bomb.
+We can think of this problem as starting at the goal number of bombs and working our way to 1 of each type of bomb. When working backwards, we only have 1 choice at each step. You must always subtract the smaller number from the larger one. For example, if you have F=10 and M=9, you must remove 9 bombs from F leaving you with F=1 and M=9. This procedure is repeated until there is 1 bomb of each type left or that outcome is no longer possible.
 
-For example, if you had 3 Mach bombs and 2 Facula bombs, they could either produce 3 Mach bombs and 5 Facula bombs, or 5 Mach bombs and 2 Facula bombs. The replication process can be changed each cycle.
-
-Second, you need to ensure that you have exactly the right number of Mach and Facula bombs to destroy the LAMBCHOP device. Too few, and the device might survive. Too many, and you might overload the mass capacitors and create a singularity at the heart of the space station - not good!
-
-And finally, you were only able to smuggle one of each type of bomb - one Mach, one Facula - aboard the ship when you arrived, so that's all you have to start with. (Thus it may be impossible to deploy the bombs to destroy the LAMBCHOP, but that's not going to stop you from trying!)
-
-You need to know how many replication cycles (generations) it will take to generate the correct amount of bombs to destroy the LAMBCHOP. Write a function solution(M, F) where M and F are the number of Mach and Facula bombs needed. Return the fewest number of generations (as a string) that need to pass before you'll have the exact number of bombs necessary to destroy the LAMBCHOP, or the string "impossible" if this can't be done! M and F will be string representations of positive integers no larger than 10^50. For example, if M = "2" and F = "1", one generation would need to pass, so the solution would be "1". However, if M = "2" and F = "4", it would not be possible.
-
-Languages
-=========
-
-To provide a Java solution, edit Solution.java  
-To provide a Python solution, edit solution.py
-
-Test cases
-==========
-Your code should pass the following test cases.
-Note that it may also be run against hidden test cases not shown here.
-
--- Java cases --  
-Input: Solution.solution('2', '1')  
-Output: 1  
-
-Input: Solution.solution('4', '7')  
-Output: 4  
-
--- Python cases --  
-Input: solution.solution('4', '7')  
-Output: 4  
-
-Input: solution.solution('2', '1')  
-Output: 1  
+To reduce the number of iterations in the loop, we can determine how many times the smaller number fits into the larger number and complete those reductions in one step. For example, if F=15 and M=6, we will need to subtract 6 bombs twice from F (15 - 6 = 9, 9 - 6 = 3). This can be done in one iteration using 15 - 12. This optimization will hurt the run time when there is only one or few subtractions required at each iteration, but it can be particularly helpful in situations like F=99 and M=2, where the same subtraction needs to occur many times. The tradeoff of slowing down the fastest runs to speed up the slowest runs seems helpful in this situation where timing out is the biggest worry regarding run time.
